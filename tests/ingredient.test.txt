@@ -79,9 +79,9 @@ describe('ingredient routes', () => {
         ].map(ingredient => Ingredient.insert(ingredient)));
 
         const response = await request(app)
-            .delete('/ingredients/3')
+            .delete('/ingredients/3');
 
-        expect(response.body).toEqual({ id: '3', name: 'cucumber' })
+        expect(response.body).toEqual({ id: '3', name: 'corn' });
     });
 
 

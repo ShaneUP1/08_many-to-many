@@ -2,7 +2,7 @@
 const fs = require('fs');
 const request = require('supertest');
 const app = require('../lib/app');
-const Recipe = require('../models/recipe');
+const Recipe = require('../Models/recipe');
 const pool = require('../lib/utils/pool');
 
 describe('recipe routes', () => {

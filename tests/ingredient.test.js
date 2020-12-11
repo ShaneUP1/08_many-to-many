@@ -2,9 +2,9 @@
 const fs = require('fs');
 const request = require('supertest');
 const app = require('../lib/app');
-const Ingredient = require('../models/ingredient');
+const Ingredient = require('../Models/ingredient');
 const pool = require('../lib/utils/pool');
-const Recipe = require('../models/recipe');
+const Recipe = require('../Models/recipe');
 
 describe('ingredient routes', () => {
     beforeEach(() => {

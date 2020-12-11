@@ -1,8 +1,10 @@
+/* eslint-disable indent */
 const fs = require('fs');
 const request = require('supertest');
 const app = require('../lib/app');
 const Ingredient = require('../models/ingredient');
 const pool = require('../lib/utils/pool');
+const Recipe = require('../models/recipe');
 
 describe('ingredient routes', () => {
     beforeEach(() => {
@@ -28,16 +30,24 @@ describe('ingredient routes', () => {
     });
 
     it('finds a single ingredient by id via GET', async () => {
-        const ingredients = await Promise.all([
-            { name: 'squash' },
-            { name: 'cucumber' },
-            { name: 'corn' }
-        ].map(ingredient => Ingredient.insert(ingredient)));
+        await Promise.all([
+            { name: 'pizza' },
+            { name: 'meatloaf' },
+            { name: 'salad' }
+        ].map(recipe => Recipe.insert(recipe)));
+
+        const ingredient = await Ingredient.insert({
+            name: 'tomato',
+            recipes: ['pizza', 'meatloaf']
+        });
 
         const response = await request(app)
-            .get('/ingredients/1');
+            .get(`/ingredients/${ingredient.id}`);
 
-        expect(response.body).toEqual(ingredients[0]);
+        expect(response.body).toEqual({
+            ...ingredient,
+            recipes: ['pizza', 'meatloaf']
+        });
     });
 
     it('finds all ingredients via GET', async () => {
@@ -79,9 +89,9 @@ describe('ingredient routes', () => {
         ].map(ingredient => Ingredient.insert(ingredient)));
 
         const response = await request(app)
-            .delete('/ingredients/3');
+            .delete(`/ingredients/${ingredients[2].id}`);
 
-        expect(response.body).toEqual({ id: '3', name: 'corn' });
+        expect(response.body).toEqual(ingredients[2]);
     });
 
 

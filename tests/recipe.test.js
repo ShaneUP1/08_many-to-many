@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 const fs = require('fs');
 const request = require('supertest');
 const app = require('../lib/app');
@@ -79,9 +80,8 @@ describe('recipe routes', () => {
         ].map(recipe => Recipe.insert(recipe)));
 
         const response = await request(app)
-            .delete('/recipes/1');
+            .delete(`/recipes/${recipes[0].id}`);
 
-        expect(response.body).toEqual({ id: '1', name: 'pizza' });
-
+        expect(response.body).toEqual(recipes[0]);
     });
 });
